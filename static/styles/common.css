@@ -1,0 +1,132 @@
+html,
+body,
+ul,
+li,
+dd,
+dl,
+p,
+h2,
+h3,
+h4,
+input {
+    padding: 0;
+    margin: 0;
+}
+*{
+  outline: none
+}
+html,body{
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+body{
+    font-size: 16px;
+    font-family: 'Microsoft Yahei';
+    -webkit-text-size-adjust:100%;  
+}
+
+ul {
+    list-style: none;
+}
+
+input {
+    outline: none;
+    border: none;
+    -webkit-appearance : none ;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/*::placeholder {
+    color: #c8c8c8;
+}*/
+input::-webkit-input-placeholder,#phone::-webkit-input-placeholder,#phones::-webkit-input-placeholder{
+        font-size: .23rem;    
+        line-height: 2em   
+}
+
+
+img {
+    display: block;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.clearfix:after {
+    content: ".";
+    clear: both;
+    display: block;
+    overflow: hidden;
+    font-size: 0;
+    height: 0;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.message {
+    padding: 10px 15px; color: #FF6D75;
+}
+
+
+/* 显示隐藏 */
+.inner {
+  overflow: hidden;
+  word-wrap: break-word;
+}
+.hide{display:none;}
+.overflow{overflow: hidden;}
+
+
+
+/* 单行文字超出省略 */
+.ellipsis-one{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 多行文字超出省略 */
+.ellipsis-two{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+/* 布局 */
+.fl{float:left;}
+.fr{float:right;}
+
+
+
+/* input 样式 */
+input[type="text"],input[type="password"],textarea,input{outline-style:none;line-height:normal;vertical-align:middle;font-family:"Microsoft YaHei";}
+input{-webkit-tap-highlight-color:rgba(255,0,0,0);-webkit-appearance: none;}
+input：：-webkit-input-placeholder{
+  color: #000;
+  font-size: .3rem
+}
+/*去掉黄色背景*/
+input:-webkit-autofill { box-shadow: 0 0 0px 1000px white inset;}
+
+
+
+/* 按钮点击透明样式 */
+.button {
+  cursor: pointer;
+}
+.button:hover {
+  opacity:0.9;
+}
+button{
+  outline: none;
+  background: none;
+  border: none;
+}
