@@ -3,7 +3,7 @@
     <em @click="closeTopMenu"></em>
     <ul>
       <li>
-        <a href="javascript:;" class="app_logo">登錄賬號</a>
+        <a href="javascript:;" class="app_logo" @click="openLoginDialog">{{options.myAccountInfo}}</a>
       </li>
       <li>
         <a href="javascript:;" class="app_logo">領取記錄</a>
@@ -18,21 +18,13 @@
 <script>
 export default {
   name: "HomeTopmenu",
-  props: ["isTopMenu"],
+  props: ["isTopMenu","options"],
   methods: {
     closeTopMenu() {
       this.$emit("closeTopMenu");
-      // this.options.isTopMenu = false;
     },
     openLoginDialog() {
-      // this.options.isTopMenu = false;
-    //   if (this.list.loginInfo == "登錄賬號") {
-    //     this.list.isMaskShow = true;
-    //     this.list.isDialogLogin = true;
-    //   } else if (this.list.loginInfo == "賬號信息") {
-    //     this.list.isMaskShow = true;
-    //     this.list.isDialogAccountInfo = true;
-    //   }
+      this.$emit('openLoginDialog');
     }
   }
 };

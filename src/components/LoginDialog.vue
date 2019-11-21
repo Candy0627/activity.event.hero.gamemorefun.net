@@ -6,71 +6,44 @@
       <ul>
         <li>
           <label for="賬號">賬號</label>
-          <input type="text" v-model="account" />
+          <input type="text" v-model="options.account" />
         </li>
         <li>
           <label for="密碼">密碼</label>
-          <input type="text" v-model="password" />
+          <input type="password" v-model="options.password" />
         </li>
         <li>
           <a href="javascript:;">忘記密碼</a>
         </li>
       </ul>
       <a href="javascript:;" class="btn_login" @click="morefunLogin">登入</a>
-      <a href="javascript:;" class="btn_fb" @click="fb">fb</a>
+      <a href="javascript:;" class="btn_fb" @click="fbLogin">fb</a>
       <!-- <a href="javascript:;" class="btn_gp" @click="onSignIn">gp</a> -->
-      <a href="javascript:;" class="g-signin2 btn_gp" data-onsuccess="onSignIn" data-theme="dark">gp</a>
+      <a href="javascript:;" class="g-signin2 btn_gp" data-onsuccess="onSignIn" data-theme="dark" @onSignIn="onSignIn(googleUser)">gp</a>
     </form>
   </section>
 </template>
 
 <script>
-import axios from "axios";
+
 export default {
   name: "HomeLogindialog",
-  props: ["isLoginDialog"],
+  props: ["isLoginDialog","options"],
   data: function() {
     return {
-      account: "",
-      password: ""
-    };
+    }
   },
   methods: {
     morefunLogin() {
-      // this.$emit('morefunLogin');
-      if (!this.account) {
-        alert("账户名不能为空!");
-      }
-      if (!this.password) {
-        alert("密码不能为空!");
-	  }
-      axios.defaults.headers.common["Authorization"] = localStorage.token;
-      var params = {
-        account: this.account,
-        password: this.password,
-        type: "MBean"
-      };
-      var that = this;
-      axios.post("http://luandou.gamemorefun.net/api/login", params)
-        .then(result => {
-          if (result.data.success == true) {
-
-            localStorage.token = result.data.data["token"];
-            localStorage.uuid = result.data.data["uuid"];
-
-            that.isLoginDialog = false;
-            that.isMaskShow = true;
-             alert("登录成功！");
-
-          } else {
-            alert("您输入的信息不正确！");
-          }
-        })
-        .catch(error => {
-        });
+      // 父组件传过来的是对象，在子组件可以修改值
+      // this.options.account =3;
+      this.$emit('morefunLogin');
     },
-    fb() {
-
+    fbLogin() {
+      this.$emit('fbLogin');
+    },
+    onSignIn() {
+      this.$emit('onSignIn');
     },
     closeLoginDialog() {}
   }
