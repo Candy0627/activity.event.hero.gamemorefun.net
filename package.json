@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "axios": "^0.19.0",
+    "barrage-ui": "^1.4.0",
+    "hellojs": "^2.0.0-4",
     "qs": "^6.9.1",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",

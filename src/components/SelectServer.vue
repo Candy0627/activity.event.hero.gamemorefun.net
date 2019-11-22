@@ -6,12 +6,16 @@
             <select name="server" @change="choose($event)" class="server">
                 <option>请选择区服</option>
                 <template v-for="(item,key) in options.roles">
-                    <option :value="item.ServerId" :key="item.ServerId" :selected="options.serverId == item.ServerId">{{item.ServerName}}</option>
+                    <option
+                        :value="item.ServerId"
+                        :key="item.ServerId"
+                        :selected="options.serverId == item.ServerId"
+                    >{{item.ServerName}}</option>
                 </template>
             </select>
             <select name="role" class="role">
-                <option>请选择角色</option>
-                <option v-if="options.selected" selected>{{options.selected.RoleName}}</option>
+                <!-- <option>请选择角色</option> -->
+                <option v-if="options.selected" selected disabled="disabled">{{options.selected.RoleName}}</option>
             </select>
 
             <a href="javascript:;" class="btn_confirm" @click="confirm()"></a>
@@ -23,11 +27,11 @@
 <script>
 export default {
     name: "HomeSelectserverdialog",
-    props: ["isSelectServerDialog","options"],
+    props: ["isSelectServerDialog", "options"],
     data: function() {
         return {
-            server_id:'',
-        }
+            server_id: ""
+        };
     },
     methods: {
         confirm() {
@@ -43,30 +47,29 @@ export default {
             var server_id = e.target.value;
             this.server_id = server_id;
 
-            console.log('当前选中的server_id',server_id);
             //根据server_id循环查找到用户选择的项
             this.options.selected = this.options.roles.find(item => {
                 return item.ServerId == server_id ? item : false;
             });
 
-            if(!this.options.selected){
-                
+            if (!this.options.selected) {
             } else {
-                console.log('this.options.selected.length',this.options.selected.lengt);
-                // localStorage.serverInfo = this.options.selected;
+                console.log(
+                    "this.options.selected.length",
+                    this.options.selected.lengt
+                );
 
                 var serverInfo = JSON.stringify(this.options.roles);
-                localStorage.setItem("serverInfo",serverInfo);
+                localStorage.setItem("serverInfo", serverInfo);
 
                 var serverInfoSelected = JSON.stringify(this.options.selected);
-                localStorage.setItem("serverInfoSelected",serverInfoSelected);
+                localStorage.setItem("serverInfoSelected", serverInfoSelected);
             }
 
-            console.log("当前选中的角色名是",this.options.selected.RoleName);
             this.options.roleName = this.options.selected.RoleName;
-            this.$emit('choseServer',this.server_id,this.options.roleName);
-            localStorage.setItem("serverId",this.server_id);
-            localStorage.setItem("roleName",this.options.roleName);
+            this.$emit("choseServer", this.server_id, this.options.roleName);
+            localStorage.setItem("serverId", this.server_id);
+            localStorage.setItem("roleName", this.options.roleName);
         }
     }
 };
@@ -105,12 +108,17 @@ export default {
         }
 
         .role {
-            position: absolute;
-            top: 3.62rem;
-            left: 1.5rem;
-            height: 0.55rem;
-            width: 4.6rem;
-            background: none;
+            position: absolute
+            top: 3.62rem
+            left: 1.5rem
+            height: 0.55rem
+            width: 4.6rem
+            background: none
+            border:none
+            pointer-events: none
+            -webkit-appearance: none
+            outline: none
+            appearance: none
         }
     }
 

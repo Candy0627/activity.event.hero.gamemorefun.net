@@ -14,8 +14,6 @@
             :isLoginDialog="isLoginDialog"
             :options="options"
             @morefunLogin="morefunLogin"
-            @fbLogin="fbLogin"
-            @onSignIn="onSignIn(googleUser)"
         ></home-logindialog>
         <home-selectserverdialog
             :isSelectServerDialog="isSelectServerDialog"
@@ -89,6 +87,32 @@ export default {
             isConfessionWall: false
         };
     },
+    mounted() {
+        
+        var token = localStorage.getItem("token");
+        var user_name = localStorage.getItem("userName");
+        var role_name = localStorage.getItem("roleName");
+        var server_id = localStorage.getItem("serverId");
+        // console.log("刚开始的状态token", token);
+        if (token == "" || token == null) {
+            this.options.myAccountInfo = "登錄賬號";
+        } else {
+            this.options.myAccountInfo = "賬號信息";
+            this.options.userName = user_name;
+            this.options.roleName = role_name;
+            this.options.serverId = server_id;
+
+            this.options.serverInfo = localStorage.getItem("serverInfo");
+            this.options.serverInfoSelected = localStorage.getItem(
+                "serverInfoSelected"
+            );
+            this.options.roles = JSON.parse(this.options.serverInfo);
+            this.options.selected = JSON.parse(this.options.serverInfoSelected);
+
+            this.options.roles.ServerName = this.options.selected.ServerName;
+            this.options.roles.ServerId = this.options.selected.ServerId;
+        }
+    },
     methods: {
         closeTopMenu() {
             this.isMaskShow = false;
@@ -108,18 +132,17 @@ export default {
         openLoginDialog() {
             this.isTopMenu = false;
             var myAccountInfo = this.options.myAccountInfo;
-            console.log("token", localStorage.getItem("token"));
+            // console.log("token", localStorage.getItem("token"));
             var token = localStorage.getItem("token");
 
             if (myAccountInfo == "賬號信息") {
                 // 已登录状态———弹出我的账号信息弹出框
-                console.log("弹出我的弹框");
                 this.isMaskShow = true;
                 this.isMyAccountInfoDialog = true;
             } else if (myAccountInfo == "登錄賬號") {
                 // 未登录状态{1.未登陆直接弹出登录框 2.已登录未选择区服}
                 if (token == "" || token == null) {
-                    console.log("请您先进行登陆");
+                    // console.log("请您先进行登陆");
                     this.isMaskShow = true;
                     this.isLoginDialog = true;
                 } else {
@@ -164,7 +187,7 @@ export default {
                             that.options.userName = result.data.data.user_name;
                             that.options.roles = result.data.data.role;
 
-                            console.log("用户名：", that.options.userName);
+                            // console.log("用户名：", that.options.userName);
 
                             localStorage.setItem(
                                 "userName",
@@ -175,65 +198,6 @@ export default {
                         }
                     });
             }
-        },
-        fbLogin() {
-            FB.login(function(response) {
-                if (response.status === "connected") {
-                    FB.api("/me", function(response) {
-                        console.log(
-                            response,
-                            "登录成功: " + response.name,
-                            response.id
-                        );
-                        axios
-                            .get(
-                                "http://luandou.gamemorefun.net/api/login",
-                                {
-                                    account: response.id,
-                                    password: "",
-                                    type: "FaceBook"
-                                }
-                            )
-                            .then(result => {
-                                console.log("result.data", result.data);
-                                localStorage.token = result.data.data["token"];
-                                localStorage.uuid = result.data.data["uuid"];
-                            });
-                    });
-                }
-            });
-        },
-        onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            console.log("ID: " + profile.getId());
-            console.log("Full Name: " + profile.getName());
-            console.log("Given Name: " + profile.getGivenName());
-            console.log("Family Name: " + profile.getFamilyName());
-            console.log("Image URL: " + profile.getImageUrl());
-            console.log("Email: " + profile.getEmail());
-
-            var id_token = googleUser.getAuthResponse().id_token;
-            console.log("ID Token: " + id_token);
-
-            var accountGuge = profile.getId();
-            var params = {
-                account: accountGuge,
-                password: "",
-                type: "google"
-            };
-            axios
-                .get(
-                    "http://luandou.gamemorefun.net/api/login",
-                    params
-                )
-                .then(result => {
-                    console.log("result.data", result.data);
-                    localStorage.token = result.data.data["token"];
-                    localStorage.uuid = result.data.data["uuid"];
-                })
-                .catch(error => {
-                    console.log(error.response);
-                });
         },
         confirmSelectServer() {
             // 确认选择区服按钮
@@ -260,58 +224,11 @@ export default {
         choseServer(server_id, role_name) {
             this.options.serverId = server_id;
             this.options.roleName = role_name;
-            console.log(
-                "我是从子组件获取到父组件的区服id",
-                this.options.serverId,
-                this.options.roleName
-            );
-        }
-    },
-    mounted() {
-        var token = localStorage.getItem("token");
-        var user_name = localStorage.getItem("userName");
-        var role_name = localStorage.getItem("roleName");
-        var server_id = localStorage.getItem("serverId");
-        console.log("刚开始的状态token", token);
-        if (token == "" || token == null) {
-            this.options.myAccountInfo = "登錄賬號";
-        } else {
-            this.options.myAccountInfo = "賬號信息";
-            this.options.userName = user_name;
-            this.options.roleName = role_name;
-            this.options.serverId = server_id;
-
-            this.options.serverInfo = localStorage.getItem("serverInfo");
-            this.options.serverInfoSelected = localStorage.getItem(
-                "serverInfoSelected"
-            );
-            console.log(
-                "111本地取出来的信息",
-                this.options.serverInfo,
-                "222选择后的",
-                this.options.serverInfoSelected
-            );
-
-            this.options.roles = JSON.parse(this.options.serverInfo);
-            this.options.selected = JSON.parse(this.options.serverInfoSelected);
-            this.options.roles.ServerName = this.options.selected.ServerName;
-            this.options.roles.ServerId = this.options.selected.ServerId;
-
-            console.log(
-                "333本地取出来的信息",
-                this.options.roles.ServerName,
-                this.options.selected.ServerName
-            );
-            console.log(
-                "555本地取出来的信息",
-                this.options.roles.ServerId,
-                this.options.selected.ServerId
-            );
-            console.log(
-                "666本地取出来的信息",
-                this.options.roles,
-                this.options.selected
-            );
+            // console.log(
+            //     "我是从子组件获取到父组件的区服id",
+            //     this.options.serverId,
+            //     this.options.roleName
+            // );
         }
     }
 };
