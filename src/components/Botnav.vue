@@ -10,7 +10,8 @@
         <router-link to="/celebration">週年慶典</router-link>
     </li>
     <li>
-        <router-link to="/goldShare">金將來襲</router-link>
+        <!-- <router-link to="/goldShare" @click="tips()">金將來襲</router-link> -->
+        <a @click="tips()">金將來襲</a>
     </li>
   </ul>
 </template>
@@ -22,6 +23,11 @@ export default {
   methods:{
     openConfessionWall(){
       this.$emit('openConfessionWall');
+    },
+    tips() {
+        // this.$toast('暂未开放,敬请期待...');
+        this.$layer.msg('暂未开放,敬请期待...');
+        // alert("敬请期待...");
     }
   }
 };
@@ -30,6 +36,7 @@ export default {
 <style lang="stylus" scoped>
 ul {
   position: fixed;
+  z-index :1;
   left: 0;
   bottom: 0;
   display: flex;

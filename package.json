@@ -15,13 +15,16 @@
     "dayjs": "^1.8.17",
     "hellojs": "^2.0.0-4",
     "install": "^0.13.0",
+    "jquery": "^3.4.1",
+    "mint-ui": "^2.2.13",
     "moment": "^2.24.0",
     "qs": "^6.9.1",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "vue": "^2.5.2",
     "vue-layer": "^1.1.6",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue2-layer-mobile": "^1.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

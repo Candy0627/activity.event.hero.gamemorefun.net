@@ -1,6 +1,6 @@
 <template>
   <section class="login" v-show="isGetRewardLogDialog">
-    <i @click="closeLoginDialog"></i>
+    <i @click="closeGetRewardLogDialog"></i>
     <img src="../../static/images/get_reword_bg.png" alt />
     <form action>
       <ul class="recordList">
@@ -22,10 +22,12 @@ export default {
     }
   },
   mounted () {
-      this.$emit('getRecordList');
+      
   },
   methods: {
-    closeLoginDialog () {},
+    closeGetRewardLogDialog () {
+        this.$emit('closeGetRewardLogDialog');
+    }
   }
 };
 </script>
@@ -45,8 +47,12 @@ export default {
         background: url('/static/images/close.png') no-repeat
         background-size: 100% 100%
     ul
-        position :absolute
-        top:0
+        position: absolute;
+        top: 2rem;
+        width: 6rem;
+        height: 3rem;
+        left: 50%;
+        margin-left: -3rem;
         li
             width: 100%
             color: #000

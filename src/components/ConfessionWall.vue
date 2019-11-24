@@ -173,17 +173,6 @@ export default {
 .confessionWall {
   position: relative;
   z-index: -1;
-
-  .backIndex {
-    display: block;
-    position: absolute;
-    width: 1.2rem;
-    height: 0.6rem;
-    top: 1.56rem;
-    right: 0;
-    text-indent: -9999px;
-  }
-
   .wall {
     width: 6.4rem;
     position: absolute;
