@@ -6,7 +6,7 @@
         <a href="javascript:;" class="app_logo" @click="openLoginDialog">{{options.myAccountInfo}}</a>
       </li>
       <li>
-        <a href="javascript:;" class="app_logo">領取記錄</a>
+        <a href="javascript:;" class="app_logo" @click="openGetRewardlogDialog">領取記錄</a>
       </li>
       <li>
         <a href="javascript:;" class="app_logo">Facebook粉絲專頁</a>
@@ -25,6 +25,9 @@ export default {
     },
     openLoginDialog() {
       this.$emit('openLoginDialog');
+    },
+    openGetRewardlogDialog() {
+        this.$emit('openGetRewardlogDialog');
     }
   }
 };

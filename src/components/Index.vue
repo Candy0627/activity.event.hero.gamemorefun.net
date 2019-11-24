@@ -1,15 +1,14 @@
 <template>
     <div id="app">
-        <!-- <home-banner :isBanner="isBanner"></home-banner> -->
+        <home-banner :isBanner="isBanner"></home-banner>
         <home-topnav @openTopMenu="openTopMenu"></home-topnav>
         <home-topmenu
             :isTopMenu="isTopMenu"
             :options="options"
             @closeTopMenu="closeTopMenu"
             @openLoginDialog="openLoginDialog"
-            @openGetRewardlogDialog="openGetRewardlogDialog"
         ></home-topmenu>
-        <home-botnav :isBotNav="isBotNav"></home-botnav>
+        <home-botnav @openConfessionWall="openConfessionWall" :isBotNav="isBotNav"></home-botnav>
         <home-mask :isMaskShow="isMaskShow"></home-mask>
         <home-logindialog
             :isLoginDialog="isLoginDialog"
@@ -32,16 +31,10 @@
             @accountOut="accountOut"
             @closeMyAccountInfoDialog="closeMyAccountInfoDialog"
         ></home-myaccountdialog>
-        <home-getrewardlogdialog
-            :isGetRewardLogDialog="isGetRewardLogDialog"
-            :options="options"
-            @getRecordList="getRecordList"
-        >
-        </home-getrewardlogdialog>
 
-        <!-- <home-confessionWall :isConfessionWall="isConfessionWall"></home-confessionWall> -->
+        <!-- <home-confessionWall :isConfessionWall="isConfessionWall"></home-confessionWall> --> -->
         
-        <router-view @saveBarrageData="saveBarrageData"></router-view>
+        <router-view></router-view>
         <!-- <router-view/> -->
     </div>
 </template>
@@ -57,10 +50,9 @@ import HomeLogindialog from "./components/LoginDialog";
 import HomeSelectserverdialog from "./components/SelectServer";
 import HomeMyaccountdialog from "./components/Myaccountinfo";
 import HomeConfessionWall from "./components/ConfessionWall";
-import HomeGetrewardlogdialog from "./components/GetRewardlogDialog";
 
 export default {
-    name: "App",
+    name: "Index",
     components: {
         HomeBanner,
         HomeTopnav,
@@ -70,8 +62,7 @@ export default {
         HomeLogindialog,
         HomeSelectserverdialog,
         HomeMyaccountdialog,
-        HomeConfessionWall,
-        HomeGetrewardlogdialog
+        HomeConfessionWall
     },
     data() {
         return {
@@ -82,14 +73,11 @@ export default {
                 roles: [],
                 selected: "",
                 serverId: "",
-                uuid: "",
                 userName: "",
                 roleName: "",
-                roleId: "",
                 serverInfo: "",
                 serverInfoSelected: "",
-                ServerName: "",
-                recordList:[]
+                ServerName: ""
             },
             isMaskShow: false,
             isBanner: true,
@@ -98,8 +86,7 @@ export default {
             isLoginDialog: false,
             isSelectServerDialog: false,
             isMyAccountInfoDialog: false,
-            isConfessionWall: false,
-            isGetRewardLogDialog: true
+            isConfessionWall: false
         };
     },
     mounted() {
@@ -129,25 +116,22 @@ export default {
         }
     },
     methods: {
-        closeTopMenu () {
+        closeTopMenu() {
             this.isMaskShow = false;
             this.isTopMenu = false;
         },
-        closeMyAccountInfoDialog () {
+        closeMyAccountInfoDialog() {
             this.isMaskShow = false;
             this.isMyAccountInfoDialog = false;
         },
-        closeSelectServerDialog () {
+        closeSelectServerDialog() {
             this.isMaskShow = false;
             this.isSelectServerDialog = false;
         },
-        openTopMenu () {
+        openTopMenu() {
             this.isTopMenu = true;
         },
-        openGetRewardlogDialog () {
-            this.isGetRewardLogDialog = true;
-        },
-        openLoginDialog () {
+        openLoginDialog() {
             this.isTopMenu = false;
             var myAccountInfo = this.options.myAccountInfo;
             // console.log("token", localStorage.getItem("token"));
@@ -170,24 +154,12 @@ export default {
                 }
             }
         },
-        getRecordList () {
-            this.options.uuid = localStorage.getItem('uuid');
-            this.options.roleId = localStorage.getItem('roleId');
-            var params = {
-                uuid: this.options.uuid,
-                role_id: this.options.roleId
-            };
-            console.log("获取中奖uuid",this.options.uuid,"角色id",this.options.roleId);
-
-            axios.defaults.headers.common['Authorization'] = localStorage.token;
+        openConfessionWall() {
+            this.isBanner = false;
+            this.isConfessionWall = true;
             
-            axios.get("http://luandou.gamemorefun.net/api/share/getRewardLog",params)
-                .then((result) => {
-                    console.log("获取中奖记录结果集",result.data);
-                    this.options.recordList = result.data.data;
-                })
         },
-        morefunLogin () {
+        morefunLogin() {
             if (!this.options.account) {
                 this.$layer.msg("账号不能为空!");
             } else if (!this.options.password) {
@@ -230,29 +202,29 @@ export default {
                     });
             }
         },
-        confirmSelectServer () {
+        confirmSelectServer() {
             // 确认选择区服按钮
             this.isSelectServerDialog = false;
             this.isMaskShow = false;
             // 选择区服信息真正表示登陆成功后，改变状态
             this.options.myAccountInfo = "賬號信息";
         },
-        cancelSelectServerDialog () {
+        cancelSelectServerDialog() {
             this.isSelectServerDialog = false;
             this.isMaskShow = false;
         },
-        switchServer () {
+        switchServer() {
             // 我的账号信息跳转到选择伺服器
             this.isMyAccountInfoDialog = false;
             this.isSelectServerDialog = true;
         },
-        accountOut () {
+        accountOut() {
             this.isMaskShow = false;
             this.isMyAccountInfoDialog = false;
             this.options.myAccountInfo = "登錄賬號";
             localStorage.clear();
         },
-        choseServer (server_id, role_name) {
+        choseServer(server_id, role_name) {
             this.options.serverId = server_id;
             this.options.roleName = role_name;
             // console.log(
@@ -260,28 +232,6 @@ export default {
             //     this.options.serverId,
             //     this.options.roleName
             // );
-        },
-        saveBarrageData (barrageText) {
-            var uuid = localStorage.getItem("uuid");
-            var role_id = localStorage.getItem("roleId");
-            var server_id = localStorage.getItem("serverId");
-            var role_name = localStorage.getItem("roleName");
-
-            
-            var params = {
-                uuid: uuid,
-                role_id: role_id,
-                server_id: server_id,
-                role_name: role_name,
-                msg: barrageText
-            };
-            console.log('我回到父组件进行保存弹幕啦',uuid,role_id,server_id,role_name,barrageText);
-            axios.defaults.headers.common['Authorization'] = localStorage.token;
-            axios
-                .post("http://www.api.com/api/barrage/store",params)
-                .then((result) => {
-                    console
-                })
         }
     }
 };

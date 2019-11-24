@@ -4,8 +4,11 @@ import router from './router'
 import qs from 'qs'
 import axios from 'axios'
 import layer from 'vue-layer'
+import moment from 'moment'
+moment.locale('zh-cn')
 
 import '../static/js/rem'
+
 import '../static/styles/reset.css'
 import '../static/styles/animate.css'
 import '../static/styles/common.css'

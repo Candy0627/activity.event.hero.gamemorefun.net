@@ -54,10 +54,6 @@ export default {
 
             if (!this.options.selected) {
             } else {
-                console.log(
-                    "this.options.selected.length",
-                    this.options.selected.lengt
-                );
 
                 var serverInfo = JSON.stringify(this.options.roles);
                 localStorage.setItem("serverInfo", serverInfo);
@@ -67,8 +63,11 @@ export default {
             }
 
             this.options.roleName = this.options.selected.RoleName;
+            this.options.roleId = this.options.selected.RoleId;
+            
             this.$emit("choseServer", this.server_id, this.options.roleName);
             localStorage.setItem("serverId", this.server_id);
+            localStorage.setItem("roleId", this.options.roleId);
             localStorage.setItem("roleName", this.options.roleName);
         }
     }

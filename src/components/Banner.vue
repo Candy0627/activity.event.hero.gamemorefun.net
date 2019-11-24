@@ -1,5 +1,5 @@
 <template>
-  <div class="banner" v-show="isBanner">
+  <div class="banner">
     <img src="/static/images/index_bg.jpg" alt="" width="100%" height="100%">
   </div>
 </template>

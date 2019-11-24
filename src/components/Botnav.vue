@@ -1,16 +1,16 @@
 <template>
   <ul class="bottom" v-show="isBotNav">
     <li>
-      <a href="javascript:;" @click="openConfessionWall">表白墻</a>
+        <router-link to="/confessionWall">表白墻</router-link>
     </li>
     <li>
-      <a href="javascript:;">亂世風雲榜</a>
+        <router-link to="/billboard">亂世風雲榜</router-link>
     </li>
     <li>
-      <a href="javascript:;">週年慶典</a>
+        <router-link to="/celebration">週年慶典</router-link>
     </li>
     <li>
-      <a href="javascript:;">金將來襲</a>
+        <router-link to="/goldShare">金將來襲</router-link>
     </li>
   </ul>
 </template>
